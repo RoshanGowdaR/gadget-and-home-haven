@@ -1,0 +1,29 @@
+
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
+
+const Hero = () => {
+  return (
+    <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20">
+      <div className="container mx-auto px-4 text-center">
+        <h1 className="text-5xl font-bold mb-6">
+          Premium Electronics & Home Accessories
+        </h1>
+        <p className="text-xl mb-8 max-w-2xl mx-auto">
+          Discover our curated collection of cutting-edge electronics and stylish home accessories. 
+          Quality products, competitive prices, and exceptional service.
+        </p>
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <Button asChild size="lg" className="bg-white text-blue-600 hover:bg-gray-100">
+            <Link to="/electronics">Shop Electronics</Link>
+          </Button>
+          <Button asChild size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600">
+            <Link to="/home-accessories">Home Accessories</Link>
+          </Button>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Hero;
