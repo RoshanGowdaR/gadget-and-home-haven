@@ -1,10 +1,11 @@
 
 import { useState } from "react";
-import { ShoppingCart, Home, Monitor, User } from "lucide-react";
+import { ShoppingCart, Home, Monitor, User, Menu } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
 import { Button } from "@/components/ui/button";
 import LoginModal from "./LoginModal";
+import SearchBar from "./SearchBar";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -23,7 +24,12 @@ const Header = () => {
             <span className="text-2xl font-bold text-gray-800">TechHome</span>
           </Link>
 
-          <nav className="hidden md:flex items-center space-x-8">
+          {/* Search Bar - Hidden on mobile */}
+          <div className="hidden md:flex flex-1 max-w-lg mx-8">
+            <SearchBar />
+          </div>
+
+          <nav className="hidden lg:flex items-center space-x-8">
             <Link to="/" className="flex items-center space-x-1 text-gray-600 hover:text-blue-600 transition-colors">
               <Home className="h-4 w-4" />
               <span>Home</span>
@@ -40,9 +46,9 @@ const Header = () => {
 
           <div className="flex items-center space-x-4">
             <LoginModal>
-              <Button variant="outline" size="sm" className="flex items-center space-x-1">
+              <Button variant="outline" size="sm" className="hidden sm:flex items-center space-x-1">
                 <User className="h-4 w-4" />
-                <span className="hidden sm:inline">Login</span>
+                <span>Login</span>
               </Button>
             </LoginModal>
             
@@ -56,20 +62,21 @@ const Header = () => {
             </Link>
             
             <button
-              className="md:hidden p-2"
+              className="lg:hidden p-2"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
-              <div className="space-y-1">
-                <div className="w-6 h-0.5 bg-gray-600"></div>
-                <div className="w-6 h-0.5 bg-gray-600"></div>
-                <div className="w-6 h-0.5 bg-gray-600"></div>
-              </div>
+              <Menu className="h-6 w-6" />
             </button>
           </div>
         </div>
 
+        {/* Mobile Search Bar */}
+        <div className="md:hidden py-3 border-t">
+          <SearchBar />
+        </div>
+
         {isMenuOpen && (
-          <div className="md:hidden py-4 border-t">
+          <div className="lg:hidden py-4 border-t">
             <nav className="space-y-2">
               <Link to="/" className="block py-2 text-gray-600 hover:text-blue-600">Home</Link>
               <Link to="/electronics" className="block py-2 text-gray-600 hover:text-blue-600">Electronics</Link>
