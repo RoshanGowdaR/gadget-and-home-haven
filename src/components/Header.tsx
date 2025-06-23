@@ -1,8 +1,10 @@
 
 import { useState } from "react";
-import { ShoppingCart, Home, Monitor, Headphones } from "lucide-react";
+import { ShoppingCart, Home, Monitor, User } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
+import { Button } from "@/components/ui/button";
+import LoginModal from "./LoginModal";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -37,6 +39,13 @@ const Header = () => {
           </nav>
 
           <div className="flex items-center space-x-4">
+            <LoginModal>
+              <Button variant="outline" size="sm" className="flex items-center space-x-1">
+                <User className="h-4 w-4" />
+                <span className="hidden sm:inline">Login</span>
+              </Button>
+            </LoginModal>
+            
             <Link to="/cart" className="relative p-2 text-gray-600 hover:text-blue-600 transition-colors">
               <ShoppingCart className="h-6 w-6" />
               {cartItemCount > 0 && (
@@ -65,6 +74,14 @@ const Header = () => {
               <Link to="/" className="block py-2 text-gray-600 hover:text-blue-600">Home</Link>
               <Link to="/electronics" className="block py-2 text-gray-600 hover:text-blue-600">Electronics</Link>
               <Link to="/home-accessories" className="block py-2 text-gray-600 hover:text-blue-600">Home Accessories</Link>
+              <div className="py-2">
+                <LoginModal>
+                  <Button variant="outline" size="sm" className="w-full">
+                    <User className="h-4 w-4 mr-2" />
+                    Login
+                  </Button>
+                </LoginModal>
+              </div>
             </nav>
           </div>
         )}
