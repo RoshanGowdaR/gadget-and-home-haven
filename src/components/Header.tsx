@@ -1,12 +1,13 @@
 
 import { useState } from "react";
-import { ShoppingCart, Home, Monitor, User, Menu } from "lucide-react";
+import { ShoppingCart, Home, Monitor, User, Menu, Search } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import UserDropdown from "./UserDropdown";
 import SearchBar from "./SearchBar";
+import MegaMenu from "./MegaMenu";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -16,81 +17,99 @@ const Header = () => {
   const cartItemCount = cartItems.reduce((total, item) => total + item.quantity, 0);
 
   return (
-    <header className="bg-white shadow-lg sticky top-0 z-50">
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
-          <Link to="/" className="flex items-center space-x-2">
-            <div className="bg-blue-600 p-2 rounded-lg">
-              <Monitor className="h-6 w-6 text-white" />
-            </div>
-            <span className="text-2xl font-bold text-gray-800">TechHome</span>
-          </Link>
+    <div className="sticky top-0 z-50">
+      <header className="bg-blue-600 text-white">
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-between h-16">
+            <Link to="/" className="flex items-center space-x-2">
+              <div className="bg-white p-2 rounded">
+                <Monitor className="h-6 w-6 text-blue-600" />
+              </div>
+              <div>
+                <span className="text-xl font-bold">TechHome</span>
+                <div className="text-xs italic">Explore Plus</div>
+              </div>
+            </Link>
 
-          {/* Search Bar - Hidden on mobile */}
-          <div className="hidden md:flex flex-1 max-w-lg mx-8">
+            {/* Search Bar - Main feature like Flipkart */}
+            <div className="hidden md:flex flex-1 max-w-2xl mx-8">
+              <div className="relative w-full">
+                <SearchBar />
+              </div>
+            </div>
+
+            <div className="flex items-center space-x-6">
+              {!loading && (
+                user ? (
+                  <UserDropdown />
+                ) : (
+                  <Link to="/auth">
+                    <Button variant="ghost" size="sm" className="hidden sm:flex items-center space-x-1 text-white hover:bg-blue-700">
+                      <User className="h-4 w-4" />
+                      <span>Login</span>
+                    </Button>
+                  </Link>
+                )
+              )}
+
+              <div className="hidden md:block text-sm">
+                <div>More</div>
+                <div className="text-xs opacity-80">▼</div>
+              </div>
+              
+              <Link to="/cart" className="flex flex-col items-center text-white hover:text-blue-200 transition-colors">
+                <div className="relative">
+                  <ShoppingCart className="h-6 w-6" />
+                  {cartItemCount > 0 && (
+                    <span className="absolute -top-2 -right-2 bg-orange-500 text-white rounded-full h-5 w-5 flex items-center justify-center text-xs">
+                      {cartItemCount}
+                    </span>
+                  )}
+                </div>
+                <span className="text-xs">Cart</span>
+              </Link>
+              
+              <button
+                className="lg:hidden p-2"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+              >
+                <Menu className="h-6 w-6" />
+              </button>
+            </div>
+          </div>
+
+          {/* Mobile Search Bar */}
+          <div className="md:hidden py-3 border-t border-blue-500">
             <SearchBar />
           </div>
-
-          <nav className="hidden lg:flex items-center space-x-8">
-            <Link to="/" className="flex items-center space-x-1 text-gray-600 hover:text-blue-600 transition-colors">
-              <Home className="h-4 w-4" />
-              <span>Home</span>
-            </Link>
-            <Link to="/electronics" className="flex items-center space-x-1 text-gray-600 hover:text-blue-600 transition-colors">
-              <Monitor className="h-4 w-4" />
-              <span>Electronics</span>
-            </Link>
-            <Link to="/home-accessories" className="flex items-center space-x-1 text-gray-600 hover:text-blue-600 transition-colors">
-              <Home className="h-4 w-4" />
-              <span>Home Accessories</span>
-            </Link>
-          </nav>
-
-          <div className="flex items-center space-x-4">
-            {!loading && (
-              user ? (
-                <UserDropdown />
-              ) : (
-                <Link to="/auth">
-                  <Button variant="outline" size="sm" className="hidden sm:flex items-center space-x-1">
-                    <User className="h-4 w-4" />
-                    <span>Sign In</span>
-                  </Button>
-                </Link>
-              )
-            )}
-            
-            <Link to="/cart" className="relative p-2 text-gray-600 hover:text-blue-600 transition-colors">
-              <ShoppingCart className="h-6 w-6" />
-              {cartItemCount > 0 && (
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full h-5 w-5 flex items-center justify-center text-xs">
-                  {cartItemCount}
-                </span>
-              )}
-            </Link>
-            
-            <button
-              className="lg:hidden p-2"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-            >
-              <Menu className="h-6 w-6" />
-            </button>
-          </div>
         </div>
+      </header>
 
-        {/* Mobile Search Bar */}
-        <div className="md:hidden py-3 border-t">
-          <SearchBar />
-        </div>
+      {/* Flipkart-style Navigation Menu */}
+      <MegaMenu />
 
-        {isMenuOpen && (
-          <div className="lg:hidden py-4 border-t">
-            <nav className="space-y-2">
-              <Link to="/" className="block py-2 text-gray-600 hover:text-blue-600">Home</Link>
-              <Link to="/electronics" className="block py-2 text-gray-600 hover:text-blue-600">Electronics</Link>
-              <Link to="/home-accessories" className="block py-2 text-gray-600 hover:text-blue-600">Home Accessories</Link>
+      {/* Mobile Menu */}
+      {isMenuOpen && (
+        <div className="lg:hidden bg-white border-b shadow-lg">
+          <div className="container mx-auto px-4 py-4">
+            <nav className="space-y-3">
+              <Link to="/" className="block py-2 text-gray-600 hover:text-blue-600 border-b">
+                <div className="flex items-center space-x-2">
+                  <Home className="h-4 w-4" />
+                  <span>Home</span>
+                </div>
+              </Link>
+              <Link to="/electronics" className="block py-2 text-gray-600 hover:text-blue-600 border-b">
+                <div className="flex items-center space-x-2">
+                  <Monitor className="h-4 w-4" />
+                  <span>Electronics</span>
+                </div>
+              </Link>
+              <Link to="/fashion" className="block py-2 text-gray-600 hover:text-blue-600 border-b">Fashion</Link>
+              <Link to="/home-kitchen" className="block py-2 text-gray-600 hover:text-blue-600 border-b">Home & Kitchen</Link>
+              <Link to="/beauty-toys-more" className="block py-2 text-gray-600 hover:text-blue-600 border-b">Beauty, Toys & More</Link>
               {!loading && (
-                <div className="py-2">
+                <div className="py-2 border-t">
                   {user ? (
                     <UserDropdown />
                   ) : (
@@ -105,9 +124,9 @@ const Header = () => {
               )}
             </nav>
           </div>
-        )}
-      </div>
-    </header>
+        </div>
+      )}
+    </div>
   );
 };
 
