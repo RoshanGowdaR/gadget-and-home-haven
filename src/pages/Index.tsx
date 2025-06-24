@@ -1,6 +1,8 @@
 
 import Header from "@/components/Header";
-import Hero from "@/components/Hero";
+import FlipkartBanner from "@/components/FlipkartBanner";
+import CategoryBanner from "@/components/CategoryBanner";
+import DealsSection from "@/components/DealsSection";
 import ProductGrid from "@/components/ProductGrid";
 import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
@@ -13,37 +15,24 @@ const Index = () => {
   const mobileProducts = products.filter(p => p.category === "Mobiles").slice(0, 4);
   const fashionProducts = products.filter(p => p.category === "Men's Fashion" || p.category === "Women's Fashion").slice(0, 4);
   const electronicsProducts = products.filter(p => p.category === "Laptops").slice(0, 4);
+  const homeProducts = products.filter(p => p.category === "Kitchen Appliances" || p.category === "Home Decor").slice(0, 4);
 
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
-      <Hero />
+      <FlipkartBanner />
+      <CategoryBanner />
       
       <main className="container mx-auto px-4 py-8">
-        {/* Featured Products */}
-        <section className="mb-12">
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-3xl font-bold text-gray-800">Featured Products</h2>
-            <Link to="/all-products">
-              <Button variant="outline" className="text-blue-600 border-blue-600 hover:bg-blue-50">
-                View All Products
-              </Button>
-            </Link>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {featuredProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
-        </section>
+        <DealsSection />
 
         {/* Mobile Phones Section */}
-        <section className="mb-12">
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-3xl font-bold text-gray-800">Top Mobile Phones</h2>
+        <section className="bg-white p-6 rounded-lg shadow-sm border mb-6">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl font-bold text-gray-800">Top Mobiles</h2>
             <Link to="/electronics">
               <Button variant="outline" className="text-blue-600 border-blue-600 hover:bg-blue-50">
-                View All Mobiles
+                View All
               </Button>
             </Link>
           </div>
@@ -55,12 +44,12 @@ const Index = () => {
         </section>
 
         {/* Fashion Section */}
-        <section className="mb-12">
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-3xl font-bold text-gray-800">Fashion Trends</h2>
+        <section className="bg-white p-6 rounded-lg shadow-sm border mb-6">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl font-bold text-gray-800">Fashion Trends</h2>
             <Link to="/fashion">
               <Button variant="outline" className="text-blue-600 border-blue-600 hover:bg-blue-50">
-                View All Fashion
+                View All
               </Button>
             </Link>
           </div>
@@ -72,17 +61,51 @@ const Index = () => {
         </section>
 
         {/* Electronics Section */}
-        <section className="mb-12">
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-3xl font-bold text-gray-800">Top Electronics</h2>
+        <section className="bg-white p-6 rounded-lg shadow-sm border mb-6">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl font-bold text-gray-800">Top Electronics</h2>
             <Link to="/electronics">
               <Button variant="outline" className="text-blue-600 border-blue-600 hover:bg-blue-50">
-                View All Electronics
+                View All
               </Button>
             </Link>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {electronicsProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        </section>
+
+        {/* Home & Kitchen Section */}
+        <section className="bg-white p-6 rounded-lg shadow-sm border mb-6">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl font-bold text-gray-800">Home & Kitchen</h2>
+            <Link to="/home-kitchen">
+              <Button variant="outline" className="text-blue-600 border-blue-600 hover:bg-blue-50">
+                View All
+              </Button>
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {homeProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        </section>
+
+        {/* Featured Products */}
+        <section className="bg-white p-6 rounded-lg shadow-sm border">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl font-bold text-gray-800">Recommended for You</h2>
+            <Link to="/all-products">
+              <Button variant="outline" className="text-blue-600 border-blue-600 hover:bg-blue-50">
+                View All Products
+              </Button>
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {featuredProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>

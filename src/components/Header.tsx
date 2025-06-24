@@ -18,7 +18,7 @@ const Header = () => {
 
   return (
     <div className="sticky top-0 z-50">
-      <header className="bg-blue-600 text-white">
+      <header className="bg-blue-600 text-white shadow-lg">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             <Link to="/" className="flex items-center space-x-2">
@@ -26,8 +26,8 @@ const Header = () => {
                 <Monitor className="h-6 w-6 text-blue-600" />
               </div>
               <div>
-                <span className="text-xl font-bold">TechHome</span>
-                <div className="text-xs italic">Explore Plus</div>
+                <span className="text-xl font-bold">Flipkart</span>
+                <div className="text-xs italic text-yellow-300">Explore <span className="text-yellow-400">Plus</span></div>
               </div>
             </Link>
 
@@ -52,9 +52,9 @@ const Header = () => {
                 )
               )}
 
-              <div className="hidden md:block text-sm">
-                <div>More</div>
-                <div className="text-xs opacity-80">▼</div>
+              <div className="hidden md:block text-sm text-center">
+                <div className="text-white">Become a Seller</div>
+                <div className="text-xs opacity-80">Start selling</div>
               </div>
               
               <Link to="/cart" className="flex flex-col items-center text-white hover:text-blue-200 transition-colors">
