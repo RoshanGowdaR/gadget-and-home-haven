@@ -3,13 +3,15 @@ import { useState } from "react";
 import { ShoppingCart, Home, Monitor, User, Menu } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useCart } from "@/contexts/CartContext";
+import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
-import LoginModal from "./LoginModal";
+import UserDropdown from "./UserDropdown";
 import SearchBar from "./SearchBar";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { cartItems } = useCart();
+  const { user, loading } = useAuth();
   
   const cartItemCount = cartItems.reduce((total, item) => total + item.quantity, 0);
 
@@ -45,12 +47,18 @@ const Header = () => {
           </nav>
 
           <div className="flex items-center space-x-4">
-            <LoginModal>
-              <Button variant="outline" size="sm" className="hidden sm:flex items-center space-x-1">
-                <User className="h-4 w-4" />
-                <span>Login</span>
-              </Button>
-            </LoginModal>
+            {!loading && (
+              user ? (
+                <UserDropdown />
+              ) : (
+                <Link to="/auth">
+                  <Button variant="outline" size="sm" className="hidden sm:flex items-center space-x-1">
+                    <User className="h-4 w-4" />
+                    <span>Sign In</span>
+                  </Button>
+                </Link>
+              )
+            )}
             
             <Link to="/cart" className="relative p-2 text-gray-600 hover:text-blue-600 transition-colors">
               <ShoppingCart className="h-6 w-6" />
@@ -81,14 +89,20 @@ const Header = () => {
               <Link to="/" className="block py-2 text-gray-600 hover:text-blue-600">Home</Link>
               <Link to="/electronics" className="block py-2 text-gray-600 hover:text-blue-600">Electronics</Link>
               <Link to="/home-accessories" className="block py-2 text-gray-600 hover:text-blue-600">Home Accessories</Link>
-              <div className="py-2">
-                <LoginModal>
-                  <Button variant="outline" size="sm" className="w-full">
-                    <User className="h-4 w-4 mr-2" />
-                    Login
-                  </Button>
-                </LoginModal>
-              </div>
+              {!loading && (
+                <div className="py-2">
+                  {user ? (
+                    <UserDropdown />
+                  ) : (
+                    <Link to="/auth">
+                      <Button variant="outline" size="sm" className="w-full">
+                        <User className="h-4 w-4 mr-2" />
+                        Sign In
+                      </Button>
+                    </Link>
+                  )}
+                </div>
+              )}
             </nav>
           </div>
         )}
