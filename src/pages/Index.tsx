@@ -1,9 +1,9 @@
 
+import React from "react";
 import Header from "@/components/Header";
 import FlipkartBanner from "@/components/FlipkartBanner";
 import CategoryBanner from "@/components/CategoryBanner";
 import DealsSection from "@/components/DealsSection";
-import ProductGrid from "@/components/ProductGrid";
 import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -11,11 +11,17 @@ import { products } from "@/data/products";
 import ProductCard from "@/components/ProductCard";
 
 const Index = () => {
-  const featuredProducts = products.slice(0, 8);
-  const mobileProducts = products.filter(p => p.category === "Mobiles").slice(0, 4);
-  const fashionProducts = products.filter(p => p.category === "Men's Fashion" || p.category === "Women's Fashion").slice(0, 4);
-  const electronicsProducts = products.filter(p => p.category === "Laptops").slice(0, 4);
-  const homeProducts = products.filter(p => p.category === "Kitchen Appliances" || p.category === "Home Decor").slice(0, 4);
+  // Safely get products with fallback
+  const allProducts = products || [];
+  const featuredProducts = allProducts.slice(0, 8);
+  const mobileProducts = allProducts.filter(p => p.category === "Mobiles").slice(0, 4);
+  const fashionProducts = allProducts.filter(p => 
+    p.category === "Men's Fashion" || p.category === "Women's Fashion"
+  ).slice(0, 4);
+  const electronicsProducts = allProducts.filter(p => p.category === "Laptops").slice(0, 4);
+  const homeProducts = allProducts.filter(p => 
+    p.category === "Kitchen Appliances" || p.category === "Home Decor"
+  ).slice(0, 4);
 
   return (
     <div className="min-h-screen bg-gray-50">

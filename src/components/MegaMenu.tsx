@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { ChevronDown } from "lucide-react";
 
@@ -20,27 +20,27 @@ const categories: Category[] = [
     subcategories: [
       {
         name: "Mobiles",
-        path: "/mobiles",
+        path: "/electronics",
         items: ["iPhone", "Samsung", "OnePlus", "Xiaomi", "Realme", "Oppo", "Vivo"]
       },
       {
         name: "Laptops",
-        path: "/laptops",
+        path: "/electronics",
         items: ["HP", "Dell", "Lenovo", "Asus", "Acer", "Apple MacBook"]
       },
       {
         name: "Tablets",
-        path: "/tablets",
+        path: "/electronics",
         items: ["iPad", "Samsung Tab", "Lenovo Tab"]
       },
       {
         name: "Audio",
-        path: "/audio",
+        path: "/electronics",
         items: ["Headphones", "Speakers", "Earbuds", "Soundbars"]
       },
       {
         name: "Cameras",
-        path: "/cameras",
+        path: "/electronics",
         items: ["DSLR", "Mirrorless", "Action Cameras", "Instant Cameras"]
       }
     ]
@@ -51,22 +51,22 @@ const categories: Category[] = [
     subcategories: [
       {
         name: "Men's Fashion",
-        path: "/mens-fashion",
+        path: "/fashion",
         items: ["Shirts", "T-Shirts", "Jeans", "Formal Wear", "Ethnic Wear"]
       },
       {
         name: "Women's Fashion",
-        path: "/womens-fashion",
+        path: "/fashion",
         items: ["Sarees", "Kurtas", "Dresses", "Tops", "Jeans", "Ethnic Wear"]
       },
       {
         name: "Kids Fashion",
-        path: "/kids-fashion",
+        path: "/fashion",
         items: ["Boys Clothing", "Girls Clothing", "Baby Clothing"]
       },
       {
         name: "Footwear",
-        path: "/footwear",
+        path: "/fashion",
         items: ["Sports Shoes", "Casual Shoes", "Formal Shoes", "Sandals"]
       }
     ]
@@ -77,17 +77,17 @@ const categories: Category[] = [
     subcategories: [
       {
         name: "Kitchen Appliances",
-        path: "/kitchen-appliances",
+        path: "/home-kitchen",
         items: ["Refrigerators", "Washing Machines", "Microwaves", "Air Conditioners"]
       },
       {
         name: "Home Decor",
-        path: "/home-decor",
+        path: "/home-kitchen",
         items: ["Lighting", "Furnishing", "Home Improvement"]
       },
       {
         name: "Furniture",
-        path: "/furniture",
+        path: "/home-kitchen",
         items: ["Sofas", "Beds", "Dining Tables", "Wardrobes"]
       }
     ]
@@ -98,17 +98,17 @@ const categories: Category[] = [
     subcategories: [
       {
         name: "Beauty & Personal Care",
-        path: "/beauty",
+        path: "/all-products",
         items: ["Makeup", "Skincare", "Haircare", "Fragrances"]
       },
       {
         name: "Toys & Games",
-        path: "/toys",
+        path: "/all-products",
         items: ["Action Figures", "Board Games", "Educational Toys"]
       },
       {
         name: "Books",
-        path: "/books",
+        path: "/all-products",
         items: ["Fiction", "Non-Fiction", "Academic", "Children's Books"]
       }
     ]
@@ -119,12 +119,12 @@ const categories: Category[] = [
     subcategories: [
       {
         name: "Sports & Fitness",
-        path: "/sports",
+        path: "/all-products",
         items: ["Exercise Equipment", "Sports Accessories", "Outdoor Games"]
       },
       {
         name: "Automotive",
-        path: "/automotive",
+        path: "/all-products",
         items: ["Car Accessories", "Bike Accessories", "Car Care"]
       }
     ]
@@ -134,6 +134,14 @@ const categories: Category[] = [
 const MegaMenu = () => {
   const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
 
+  const handleCategoryEnter = (categoryName: string) => {
+    setHoveredCategory(categoryName);
+  };
+
+  const handleCategoryLeave = () => {
+    setHoveredCategory(null);
+  };
+
   return (
     <div className="bg-white border-b shadow-sm">
       <div className="container mx-auto px-4">
@@ -142,8 +150,8 @@ const MegaMenu = () => {
             <div
               key={category.name}
               className="relative group"
-              onMouseEnter={() => setHoveredCategory(category.name)}
-              onMouseLeave={() => setHoveredCategory(null)}
+              onMouseEnter={() => handleCategoryEnter(category.name)}
+              onMouseLeave={handleCategoryLeave}
             >
               <Link
                 to={category.path}
@@ -169,7 +177,7 @@ const MegaMenu = () => {
                             {subcategory.items.map((item) => (
                               <li key={item}>
                                 <Link
-                                  to={`${subcategory.path}/${item.toLowerCase().replace(/\s+/g, '-')}`}
+                                  to={subcategory.path}
                                   className="text-sm text-gray-600 hover:text-blue-600"
                                 >
                                   {item}
